@@ -22,17 +22,12 @@ const usuariosRoutes = require('./routes/usuarios')
 
 //Rutas 
 app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/hospitales', require('./routes/hospitales'));
+app.use('/api/medicos', require('./routes/medicos'));
+app.use('/api/todo', require('./routes/busquedas'));
 app.use('/api/login', require('./routes/auth'));
+app.use('/api/upload', require('./routes/uploads'));
 
-// app.get('/', (req, res)=> {
-//     const body = req.body;
-//     console.log(body);  
-//     res.json({
-//         ok:true,
-//         mensaje: 'Hola mundo'
-//     });
-
-// });
 
 app.listen(process.env.PORT, () => {
     console.log('Servidor corriendo en puerto: ' + 3000);

@@ -3,11 +3,10 @@ const { check } = require ('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos')
 const { validarJWT } = require('../middlewares/validar-jw')
 const { getUsuarios, crearUsuario, actualizarUsuario, borrarUsuario } = require('../controllers/usuarios');
-const validarJw = require('../middlewares/validar-jw');
 const router = Router();
 
 
-router.get('/', validarJWT, getUsuarios);
+router.get('/', getUsuarios);
 router.post('/',
     [
         validarJWT,
@@ -28,21 +27,5 @@ router.put('/:id',
     ], actualizarUsuario
 );
 router.delete('/:id', validarJWT, borrarUsuario )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
