@@ -36,17 +36,44 @@ const crearMedico = async (req, res= response) => {
     }
 
 }
-const actualizarMedico = (req, res= response) => {
-    res.json({
-        ok:true,
-        msg: 'Actualizar Medico',
-    });
+const actualizarMedico = async (req, res= response) => {
+    const medicoId = req.params.id;
+    const uid = req.uid;
+    try {
+        const cambiosMedico = {
+            ...req.body,
+            usuario: uid
+        }
+        const medico = await Hospital.findOneAndUpdate({_id: medicoId}, cambiosMedico, {new: true});
+
+        res.json({
+            ok:true,
+            medico
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok:false,
+            msg: 'Hable con el administrador',
+            error
+        });
+    }
 }
 const borrarMedico = (req, res= response) => {
-    res.json({
-        ok:true,
-        msg: 'Eliminar Medico',
-    });
+
+    const medicoId = req.params.id;
+    try {
+        const medicoDB = await Hospital.findOneAndDelete({_id: medicoId});
+        res.json({
+            ok:true,
+            medicoEliminado: medicoDB
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok:false,
+            msg: 'Hable con el administrador',
+            error
+        });
+    }
 }
 
 module.exports = {

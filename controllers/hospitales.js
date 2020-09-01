@@ -35,22 +35,48 @@ const crearHospital = async (req, res= response) => {
         });
     }
 }
-const actualizarMedico = (req, res= response) => {
-    res.json({
-        ok:true,
-        msg: 'Actualizar Hospital',
-    });
+const actualizarHospital = async (req, res= response) => {
+    const hospitalId = req.params.id;
+    const uid = req.uid;
+    try {
+        const cambiosHospital = {
+            ...req.body,
+            usuario: uid
+        }
+        const hospital = await Hospital.findOneAndUpdate({_id: hospitalId}, cambiosHospital, {new: true});
+
+        res.json({
+            ok:true,
+            hospital
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok:false,
+            msg: 'Hable con el administrador',
+            error
+        });
+    }
 }
-const borrarMedico = (req, res= response) => {
-    res.json({
-        ok:true,
-        msg: 'Eliminar Hospital',
-    });
+const borrarHospital = async (req, res= response) => {
+    const hospitalId = req.params.id;
+    try {
+        const hospitalDB = await Hospital.findOneAndDelete({_id: hospitalId});
+        res.json({
+            ok:true,
+            hospitalEliminado: hospitalDB
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok:false,
+            msg: 'Hable con el administrador',
+            error
+        });
+    }
 }
 
 module.exports = {
     getHospitales,
     crearHospital,
-    actualizarMedico,
-    borrarMedico
+    actualizarHospital,
+    borrarHospital
 }
