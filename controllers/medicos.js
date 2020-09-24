@@ -58,11 +58,11 @@ const actualizarMedico = async (req, res= response) => {
         });
     }
 }
-const borrarMedico = (req, res= response) => {
+const borrarMedico = async(req, res= response) => {
 
     const medicoId = req.params.id;
     try {
-        const medicoDB = await Hospital.findOneAndDelete({_id: medicoId});
+        const medicoDB = await Medico.findOneAndDelete({_id: medicoId});
         res.json({
             ok:true,
             medicoEliminado: medicoDB

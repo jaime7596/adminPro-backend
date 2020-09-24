@@ -90,15 +90,28 @@ const googleSingIn = async(req, res = response) => {
 
 const renewToken = async (req, res = response) => {
 
-    const uid = req.uid;
+    try {
+        const uid = req.uid;
+        console.log(uid);
 
-    // Generar Token
-    const token = await generarJWT(uid);
-
-    res.json({
-        ok:true,
-        token
-    });
+        usuarioDB = await Usuario.findOne({_id: uid});
+    
+    
+        // Generar Token
+        const token = await generarJWT(uid);
+    
+        res.json({
+            ok:true,
+            token,
+            usuario: usuarioDB
+        });
+        
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            msg: 'Token Invalido',
+        });
+    }
 
 }
 
